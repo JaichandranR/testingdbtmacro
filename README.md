@@ -11,3 +11,5 @@ jsonpath_record_selector = 'AS_MULTISTRING:[{"applicationId":"$.applications[*].
 
 
   jsonpath_record_selector = 'AS_MULTISTRING:[{"applicationId":"$.applications[*].applicationId"},{"platformCode":"$.applications[*].architecture.knownApplicationProductionPlatforms[?(@ != null)].platformCode"}]',
+
+  jsonpath_record_selector = 'AS_MULTISTRING:[{"applicationId":"$.applications[*].applicationId"},{"architecture":"$.applications[*].architecture"}]',
