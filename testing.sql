@@ -3,12 +3,12 @@ WITH flattened_data AS (
         -- Extract applicationId
         json_extract_scalar(raw, '$.applicationId') AS applicationId,
         -- Unnest knownApplicationProductionPlatforms and extract fields
-        json_extract_scalar(platform, '$.platformCode') AS platformCode,
-        json_extract_scalar(platform, '$.sourceApplicationId') AS sourceApplicationId,
-        json_extract_scalar(platform, '$.lastDiscoveredDateTimeUTC') AS lastDiscoveredDateTimeUTC
+        platform.platformCode,
+        platform.sourceApplicationId,
+        platform.lastDiscoveredDateTimeUTC
     FROM {{ ref('raw_32010_application') }},
-    -- Correct UNNEST syntax, no need for `.value`
-    UNNEST(json_parse(json_extract(raw, '$.architecture.knownApplicationProductionPlatforms'))) AS platform
+    -- Use UNNEST to unnest the array
+    UNNEST(cast(json_parse(json_extract(raw, '$.architecture.knownApplicationProductionPlatforms')) AS array(map(varchar, varchar)))) AS platform
 )
 
 SELECT *
